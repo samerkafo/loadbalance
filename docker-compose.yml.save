@@ -1,0 +1,44 @@
+php:7.0-fpmversion: "2"
+services:
+  web-site:
+    image: php:7.0-apache
+    ports: 
+     - "9611:80"
+    volumes:
+     - "./:/var/www/html"
+    networks:
+     - frontend
+  pinghost:
+    image: debian
+    command: ping -d web-site
+    networks:
+      - frontend
+  db:
+    image: mariadb
+    #container_name: mysql 
+    volumes:
+      - ./:/var/lib/mysql  
+    ports:
+      - "6314:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=netlab
+      - MYSQL_DATABASE=bigdata
+      - MYSQL_USER_NAME=root
+      - MYSQL_PASSWORD=netlab
+    networks:
+      - frontend
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "9613:80"
+    environment:
+      - MYSQL_USER_NAME=root
+      - MYSQL_ROOT_PASSWORD=netla
+      - PMA_HOST=db
+    links:
+      - db
+    networks: 
+      - frontend
+networks:
+    frontend:
+            driver: bridge 

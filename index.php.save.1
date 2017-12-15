@@ -1,0 +1,43 @@
+<?php
+$host="172.22.0.4";
+$user="root";
+$password="netlab";
+$database="bigdata";
+$connect=  mysqli_connect($host, $user, $password, $database);
+if(mysqli_connect_errno()){
+    die("cannot connect to database field:". mysqli_connect_error());
+    
+}
+ else {
+    echo 'Database is connected';  
+}
+?>
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+        <?php
+        // put your code here
+        $query="insert into activitylog (us rname,password)values('". $usename . "','". $password . "')";
+        $result=  mysqli_query($connect, $query);
+        if( $result){
+            echo '</br>Data is inerted';
+        } 
+ else {
+die("Database query failed. " . mysqli_error($connection));
+
+
+        ?>
+    </body>
+</html>
+<?php
+mysqli_close($connect);
+?>
